@@ -6,20 +6,13 @@ public class Employee {
     private double salary;
     private String department;
     private int experienceYears;
-    private String phoneNumber;
-    private boolean isFullTime;
 
-    public Employee(String fullName, String position, double salary,
-                    String department, int experienceYears,
-                    String phoneNumber, boolean isFullTime) {
-
+    public Employee(String fullName, String position, double salary, String department, int experienceYears) {
         setFullName(fullName);
         setPosition(position);
         setSalary(salary);
         setDepartment(department);
         setExperienceYears(experienceYears);
-        setPhoneNumber(phoneNumber);
-        setFullTime(isFullTime);
     }
 
     public void setFullName(String fullName) {
@@ -33,7 +26,7 @@ public class Employee {
     }
 
     public void setSalary(double salary) {
-        if (salary <= 0) throw new IllegalArgumentException("Зарплата > 0");
+        if (salary <= 0) throw new IllegalArgumentException("Зарплата повинна бути > 0");
         this.salary = salary;
     }
 
@@ -43,17 +36,8 @@ public class Employee {
     }
 
     public void setExperienceYears(int experienceYears) {
-        if (experienceYears < 0 || experienceYears > 60) throw new IllegalArgumentException("Стаж 0-60");
+        if (experienceYears < 0 || experienceYears > 60) throw new IllegalArgumentException("Стаж має бути від 0 до 60");
         this.experienceYears = experienceYears;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        if (phoneNumber == null || phoneNumber.trim().isEmpty()) throw new IllegalArgumentException("Телефон не може бути порожнім");
-        this.phoneNumber = phoneNumber.trim();
-    }
-
-    public void setFullTime(boolean fullTime) {
-        this.isFullTime = fullTime;
     }
 
     public String getFullName() { return fullName; }
@@ -61,12 +45,10 @@ public class Employee {
     public double getSalary() { return salary; }
     public String getDepartment() { return department; }
     public int getExperienceYears() { return experienceYears; }
-    public String getPhoneNumber() { return phoneNumber; }
-    public boolean isFullTime() { return isFullTime; }
 
     @Override
     public String toString() {
-        return String.format("Працівник: %s | Посада: %s | Зарплата: %.0f | Відділ: %s",
+        return String.format("Працівник: %s | Посада: %s | Зарплата: %.0f грн | Відділ: %s",
                 fullName, position, salary, department);
     }
 }
