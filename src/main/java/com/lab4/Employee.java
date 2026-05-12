@@ -1,17 +1,15 @@
 package com.lab4;
 
 public class Employee {
-    private static int totalEmployeesCreated = 0;
-
     private String fullName;
-    private Position position;
+    private String position;
     private double salary;
     private String department;
     private int experienceYears;
     private String phoneNumber;
     private boolean isFullTime;
 
-    public Employee(String fullName, Position position, double salary,
+    public Employee(String fullName, String position, double salary,
                     String department, int experienceYears,
                     String phoneNumber, boolean isFullTime) {
 
@@ -22,64 +20,35 @@ public class Employee {
         setExperienceYears(experienceYears);
         setPhoneNumber(phoneNumber);
         setFullTime(isFullTime);
-
-        totalEmployeesCreated++;
-    }
-
-    public Employee(Employee other) {
-        this.fullName = other.fullName;
-        this.position = other.position;
-        this.salary = other.salary;
-        this.department = other.department;
-        this.experienceYears = other.experienceYears;
-        this.phoneNumber = other.phoneNumber;
-        this.isFullTime = other.isFullTime;
-        totalEmployeesCreated++;
-    }
-
-    public static int getTotalEmployeesCreated() {
-        return totalEmployeesCreated;
     }
 
     public void setFullName(String fullName) {
-        if (fullName == null || fullName.trim().isEmpty()) {
-            throw new IllegalArgumentException("ПІБ не може бути порожнім");
-        }
+        if (fullName == null || fullName.trim().isEmpty()) throw new IllegalArgumentException("ПІБ не може бути порожнім");
         this.fullName = fullName.trim();
     }
 
-    public void setPosition(Position position) {
-        if (position == null) {
-            throw new IllegalArgumentException("Посада не може бути null");
-        }
-        this.position = position;
+    public void setPosition(String position) {
+        if (position == null || position.trim().isEmpty()) throw new IllegalArgumentException("Посада не може бути порожньою");
+        this.position = position.trim();
     }
 
     public void setSalary(double salary) {
-        if (salary <= 0) {
-            throw new IllegalArgumentException("Зарплата повинна бути більшою за 0");
-        }
+        if (salary <= 0) throw new IllegalArgumentException("Зарплата > 0");
         this.salary = salary;
     }
 
     public void setDepartment(String department) {
-        if (department == null || department.trim().isEmpty()) {
-            throw new IllegalArgumentException("Відділ не може бути порожнім");
-        }
+        if (department == null || department.trim().isEmpty()) throw new IllegalArgumentException("Відділ не може бути порожнім");
         this.department = department.trim();
     }
 
     public void setExperienceYears(int experienceYears) {
-        if (experienceYears < 0 || experienceYears > 60) {
-            throw new IllegalArgumentException("Стаж має бути від 0 до 60 років");
-        }
+        if (experienceYears < 0 || experienceYears > 60) throw new IllegalArgumentException("Стаж 0-60");
         this.experienceYears = experienceYears;
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        if (phoneNumber == null || phoneNumber.trim().isEmpty()) {
-            throw new IllegalArgumentException("Номер телефону не може бути порожнім");
-        }
+        if (phoneNumber == null || phoneNumber.trim().isEmpty()) throw new IllegalArgumentException("Телефон не може бути порожнім");
         this.phoneNumber = phoneNumber.trim();
     }
 
@@ -88,7 +57,7 @@ public class Employee {
     }
 
     public String getFullName() { return fullName; }
-    public Position getPosition() { return position; }
+    public String getPosition() { return position; }
     public double getSalary() { return salary; }
     public String getDepartment() { return department; }
     public int getExperienceYears() { return experienceYears; }
@@ -97,7 +66,7 @@ public class Employee {
 
     @Override
     public String toString() {
-        return String.format("Працівник: %s | Посада: %s | Відділ: %s | Зарплата: %.0f грн | Стаж: %d | Тел: %s | Повна зайнятість: %s",
-                fullName, position.getDisplayName(), department, salary, experienceYears, phoneNumber, isFullTime ? "Так" : "Ні");
+        return String.format("Працівник: %s | Посада: %s | Зарплата: %.0f | Відділ: %s",
+                fullName, position, salary, department);
     }
 }
