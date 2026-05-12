@@ -10,7 +10,18 @@ public class SalesEmployee extends FullTimeEmployee {
     }
 
     @Override
+    public String getType() { return "SalesEmployee"; }
+
+    @Override
     public String toString() {
-        return super.toString() + " | План продажів: " + salesTarget + " грн";
+        return super.toString() + " | План продажів: " + salesTarget;
     }
+
+    @Override
+    public String toFileString() {
+        return getType() + "|" + getFullName() + "|" + getPosition() + "|" + getSalary() + "|"
+                + getDepartment() + "|" + getExperienceYears() + "|" + getBonusPercentage() + "|" + salesTarget;
+    }
+
+    public double getBonusPercentage() { return bonusPercentage; }
 }

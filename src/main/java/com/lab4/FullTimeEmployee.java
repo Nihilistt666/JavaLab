@@ -10,7 +10,16 @@ public class FullTimeEmployee extends Employee {
     }
 
     @Override
+    public String getType() { return "FullTimeEmployee"; }
+
+    @Override
     public String toString() {
         return super.toString() + " | Повна зайнятість | Бонус: " + bonusPercentage + "%";
+    }
+
+    @Override
+    public String toFileString() {
+        return getType() + "|" + getFullName() + "|" + getPosition() + "|" + getSalary() + "|"
+                + getDepartment() + "|" + getExperienceYears() + "|" + bonusPercentage;
     }
 }

@@ -46,9 +46,15 @@ public class Employee {
     public String getDepartment() { return department; }
     public int getExperienceYears() { return experienceYears; }
 
+    public String getType() { return "Employee"; }
+
     @Override
     public String toString() {
-        return String.format("Працівник: %s | Посада: %s | Зарплата: %.0f грн | Відділ: %s",
+        return String.format("Працівник: %s | Посада: %s | Зарплата: %.0f | Відділ: %s",
                 fullName, position, salary, department);
+    }
+
+    public String toFileString() {
+        return getType() + "|" + fullName + "|" + position + "|" + salary + "|" + department + "|" + experienceYears;
     }
 }

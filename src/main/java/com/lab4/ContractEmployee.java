@@ -10,7 +10,16 @@ public class ContractEmployee extends Employee {
     }
 
     @Override
+    public String getType() { return "ContractEmployee"; }
+
+    @Override
     public String toString() {
         return super.toString() + " | Контракт: " + contractDurationMonths + " міс.";
+    }
+
+    @Override
+    public String toFileString() {
+        return getType() + "|" + getFullName() + "|" + getPosition() + "|" + getSalary() + "|"
+                + getDepartment() + "|" + getExperienceYears() + "|" + contractDurationMonths;
     }
 }

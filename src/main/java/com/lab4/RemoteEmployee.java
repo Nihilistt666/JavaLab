@@ -10,7 +10,18 @@ public class RemoteEmployee extends FullTimeEmployee {
     }
 
     @Override
+    public String getType() { return "RemoteEmployee"; }
+
+    @Override
     public String toString() {
-        return super.toString() + " | Віддалена робота: " + remoteLocation;
+        return super.toString() + " | Віддалена: " + remoteLocation;
     }
+
+    @Override
+    public String toFileString() {
+        return getType() + "|" + getFullName() + "|" + getPosition() + "|" + getSalary() + "|"
+                + getDepartment() + "|" + getExperienceYears() + "|" + getBonusPercentage() + "|" + remoteLocation;
+    }
+
+    public double getBonusPercentage() { return bonusPercentage; } // для toFileString
 }
