@@ -1,60 +1,94 @@
 package com.lab4;
 
-import java.util.Objects;
-
+/**
+ * Клас Employee представляє працівника компанії.
+ * Містить валідацію даних у конструкторі та сетерах.
+ */
 public class Employee {
     private String fullName;
     private String position;
     private double salary;
     private String department;
-    private int experienceYears; // стаж у роках
+    private int experienceYears;
+    private String phoneNumber;     // нове поле
+    private boolean isFullTime;     // нове поле (повна зайнятість)
 
-    // Конструктор з параметрами
+    /**
+     * Конструктор з параметрами з валідацією.
+     */
     public Employee(String fullName, String position, double salary,
-                    String department, int experienceYears) {
-        this.fullName = fullName;
-        this.position = position;
-        this.salary = salary;
-        this.department = department;
-        this.experienceYears = experienceYears;
+                    String department, int experienceYears,
+                    String phoneNumber, boolean isFullTime) {
+
+        setFullName(fullName);
+        setPosition(position);
+        setSalary(salary);
+        setDepartment(department);
+        setExperienceYears(experienceYears);
+        setPhoneNumber(phoneNumber);
+        setFullTime(isFullTime);
     }
 
-    // Гетери
+    // === Гетери ===
     public String getFullName() { return fullName; }
     public String getPosition() { return position; }
     public double getSalary() { return salary; }
     public String getDepartment() { return department; }
     public int getExperienceYears() { return experienceYears; }
+    public String getPhoneNumber() { return phoneNumber; }
+    public boolean isFullTime() { return isFullTime; }
 
-    // Сетери
-    public void setFullName(String fullName) { this.fullName = fullName; }
-    public void setPosition(String position) { this.position = position; }
-    public void setSalary(double salary) { this.salary = salary; }
-    public void setDepartment(String department) { this.department = department; }
+    // === Сетери з валідацією ===
+    public void setFullName(String fullName) {
+        if (fullName == null || fullName.trim().isEmpty()) {
+            throw new IllegalArgumentException("ПІБ не може бути порожнім");
+        }
+        this.fullName = fullName.trim();
+    }
+
+    public void setPosition(String position) {
+        if (position == null || position.trim().isEmpty()) {
+            throw new IllegalArgumentException("Посада не може бути порожньою");
+        }
+        this.position = position.trim();
+    }
+
+    public void setSalary(double salary) {
+        if (salary <= 0) {
+            throw new IllegalArgumentException("Зарплата повинна бути більшою за 0");
+        }
+        this.salary = salary;
+    }
+
+    public void setDepartment(String department) {
+        if (department == null || department.trim().isEmpty()) {
+            throw new IllegalArgumentException("Відділ не може бути порожнім");
+        }
+        this.department = department.trim();
+    }
+
     public void setExperienceYears(int experienceYears) {
+        if (experienceYears < 0 || experienceYears > 60) {
+            throw new IllegalArgumentException("Стаж має бути від 0 до 60 років");
+        }
         this.experienceYears = experienceYears;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        if (phoneNumber == null || phoneNumber.trim().isEmpty()) {
+            throw new IllegalArgumentException("Номер телефону не може бути порожнім");
+        }
+        this.phoneNumber = phoneNumber.trim();
+    }
+
+    public void setFullTime(boolean fullTime) {
+        this.isFullTime = fullTime;
     }
 
     @Override
     public String toString() {
-        return String.format("Працівник: %s | Посада: %s | Відділ: %s | Зарплата: %.2f грн | Стаж: %d років",
-                fullName, position, department, salary, experienceYears);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Employee employee = (Employee) o;
-        return Double.compare(salary, employee.salary) == 0 &&
-                experienceYears == employee.experienceYears &&
-                Objects.equals(fullName, employee.fullName) &&
-                Objects.equals(position, employee.position) &&
-                Objects.equals(department, employee.department);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(fullName, position, salary, department, experienceYears);
+        return String.format("Працівник: %s | Посада: %s | Відділ: %s | Зарплата: %.0f грн | " +
+                        "Стаж: %d років | Тел: %s | Повна зайнятість: %s",
+                fullName, position, department, salary, experienceYears, phoneNumber, isFullTime ? "Так" : "Ні");
     }
 }
