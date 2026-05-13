@@ -1,6 +1,6 @@
 package com.lab4;
 
-public class Employee {
+public abstract class Employee implements Comparable<Employee> {
     private String fullName;
     private String position;
     private double salary;
@@ -46,7 +46,12 @@ public class Employee {
     public String getDepartment() { return department; }
     public int getExperienceYears() { return experienceYears; }
 
-    public String getType() { return "Employee"; }
+    public abstract String getType();
+
+    @Override
+    public int compareTo(Employee other) {
+        return this.fullName.compareToIgnoreCase(other.fullName);
+    }
 
     @Override
     public String toString() {
