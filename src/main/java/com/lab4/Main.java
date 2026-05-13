@@ -3,6 +3,7 @@ package com.lab4;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -14,7 +15,7 @@ public class Main {
     public static void main(String[] args) {
         company = new Company("Tech Solutions");
         loadFromFile();
-        System.out.println("=== Практична робота №13 - Comparable ===");
+        System.out.println("=== Практична робота №14 - Comparator ===");
 
         while (true) {
             printMainMenu();
@@ -26,7 +27,7 @@ public class Main {
                     case 1 -> createEmployee();
                     case 2 -> printAllEmployees();
                     case 3 -> searchMenu();
-                    case 4 -> printSortedEmployees();
+                    case 4 -> sortMenu();
                     case 0 -> {
                         saveToFile();
                         System.out.println("Дані збережено.");
@@ -46,10 +47,61 @@ public class Main {
         System.out.println("1. Додати працівника");
         System.out.println("2. Вивести всіх");
         System.out.println("3. Пошук");
-        System.out.println("4. Вивести відсортованих за ПІБ");
+        System.out.println("4. Відсортувати та вивести");
         System.out.println("0. Вийти");
         System.out.println("=".repeat(50));
         System.out.print("Вибір: ");
+    }
+
+    private static void sortMenu() {
+        System.out.println("\nОберіть критерій сортування:");
+        System.out.println("1. За ПІБ");
+        System.out.println("2. За зарплатою (зростання)");
+        System.out.println("3. За стажем (зменшення)");
+        System.out.println("0. Повернутися");
+        System.out.print("Вибір: ");
+
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+        ArrayList<Employee> list = company.getEmployees();
+        if (list.isEmpty()) {
+            System.out.println("Список порожній.");
+            return;
+        }
+
+        switch (choice) {
+            case 1 -> {
+                Collections.sort(list);
+                System.out.println("\n=== Відсортовано за ПІБ ===");
+            }
+            case 2 -> {
+                Comparator<Employee> bySalary = new Comparator<Employee>() {
+                    @Override
+                    public int compare(Employee e1, Employee e2) {
+                        return Double.compare(e1.getSalary(), e2.getSalary());
+                    }
+                };
+                Collections.sort(list, bySalary);
+                System.out.println("\n=== Відсортовано за зарплатою (зростання) ===");
+            }
+            case 3 -> {
+                Comparator<Employee> byExperience = new Comparator<Employee>() {
+                    @Override
+                    public int compare(Employee e1, Employee e2) {
+                        return Integer.compare(e2.getExperienceYears(), e1.getExperienceYears());
+                    }
+                };
+                Collections.sort(list, byExperience);
+                System.out.println("\n=== Відсортовано за стажем (зменшення) ===");
+            }
+            case 0 -> { return; }
+            default -> System.out.println("Невірний вибір!");
+        }
+
+        for (Employee e : list) {
+            System.out.println(e);
+        }
     }
 
     private static void createEmployee() {
@@ -95,19 +147,6 @@ public class Main {
     private static void printAllEmployees() {
         System.out.println(company);
         for (Employee e : company.getEmployees()) {
-            System.out.println(e);
-        }
-    }
-
-    private static void printSortedEmployees() {
-        ArrayList<Employee> list = company.getEmployees();
-        if (list.isEmpty()) {
-            System.out.println("Список порожній.");
-            return;
-        }
-        Collections.sort(list);
-        System.out.println("\n=== Відсортовані за ПІБ ===");
-        for (Employee e : list) {
             System.out.println(e);
         }
     }
