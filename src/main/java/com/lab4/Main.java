@@ -12,10 +12,10 @@ public class Main {
 
     public static void main(String[] args) {
         loadFromFile();
-        System.out.println("=== Практична робота №9 - Робота з файлами ===");
+        System.out.println("=== Практична робота №10 - Пошук у колекціях ===");
 
         while (true) {
-            printMenu();
+            printMainMenu();
             try {
                 int choice = scanner.nextInt();
                 scanner.nextLine();
@@ -23,6 +23,7 @@ public class Main {
                 switch (choice) {
                     case 1 -> createEmployee();
                     case 2 -> printAllEmployees();
+                    case 3 -> searchMenu();
                     case 0 -> {
                         saveToFile();
                         System.out.println("Дані збережено. Програма завершена.");
@@ -30,6 +31,9 @@ public class Main {
                     }
                     default -> System.out.println("Невірний вибір!");
                 }
+            } catch (InputMismatchException e) {
+                System.out.println("Помилка: введіть число!");
+                scanner.nextLine();
             } catch (Exception e) {
                 System.out.println("Помилка: " + e.getMessage());
                 scanner.nextLine();
@@ -37,10 +41,11 @@ public class Main {
         }
     }
 
-    private static void printMenu() {
+    private static void printMainMenu() {
         System.out.println("\n" + "=".repeat(50));
         System.out.println("1. Створити нового працівника");
         System.out.println("2. Вивести всіх працівників");
+        System.out.println("3. Пошук працівника");
         System.out.println("0. Вийти (зберегти у файл)");
         System.out.println("=".repeat(50));
         System.out.print("Вибір: ");
@@ -82,6 +87,7 @@ public class Main {
                 employees.add(new SalesEmployee(name, pos, sal, dep, exp, b, t));
             }
         }
+        System.out.println("Працівник доданий.");
     }
 
     private static void printAllEmployees() {
@@ -89,9 +95,72 @@ public class Main {
             System.out.println("Список порожній.");
             return;
         }
+        System.out.println("\n=== Всі працівники ===");
         for (Employee e : employees) {
             System.out.println(e);
         }
+    }
+
+    private static void searchMenu() {
+        System.out.println("\n" + "=".repeat(40));
+        System.out.println("Пошук за:");
+        System.out.println("1. ПІБ");
+        System.out.println("2. Посада");
+        System.out.println("3. Зарплата більше ніж");
+        System.out.println("0. Повернутися");
+        System.out.println("=".repeat(40));
+        System.out.print("Вибір: ");
+
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (choice) {
+            case 1 -> searchByFullName();
+            case 2 -> searchByPosition();
+            case 3 -> searchBySalary();
+            case 0 -> {}
+            default -> System.out.println("Невірний вибір!");
+        }
+    }
+
+    private static void searchByFullName() {
+        System.out.print("Введіть ПІБ для пошуку: ");
+        String name = scanner.nextLine().trim();
+        boolean found = false;
+        for (Employee e : employees) {
+            if (e.getFullName().equalsIgnoreCase(name)) {
+                System.out.println(e);
+                found = true;
+            }
+        }
+        if (!found) System.out.println("Не знайдено.");
+    }
+
+    private static void searchByPosition() {
+        System.out.print("Введіть посаду: ");
+        String pos = scanner.nextLine().trim();
+        boolean found = false;
+        for (Employee e : employees) {
+            if (e.getPosition().equalsIgnoreCase(pos)) {
+                System.out.println(e);
+                found = true;
+            }
+        }
+        if (!found) System.out.println("Не знайдено.");
+    }
+
+    private static void searchBySalary() {
+        System.out.print("Зарплата більше ніж: ");
+        double minSalary = scanner.nextDouble();
+        scanner.nextLine();
+        boolean found = false;
+        for (Employee e : employees) {
+            if (e.getSalary() > minSalary) {
+                System.out.println(e);
+                found = true;
+            }
+        }
+        if (!found) System.out.println("Не знайдено.");
     }
 
     private static void loadFromFile() {
@@ -117,7 +186,7 @@ public class Main {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Файл input.txt не знайдено або порожній.");
+
         }
     }
 
@@ -127,7 +196,7 @@ public class Main {
                 pw.println(e.toFileString());
             }
         } catch (Exception e) {
-            System.out.println("Помилка збереження файлу.");
+            System.out.println("Помилка збереження.");
         }
     }
 }
