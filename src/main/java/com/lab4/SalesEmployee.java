@@ -9,6 +9,10 @@ public class SalesEmployee extends FullTimeEmployee {
         this.salesTarget = salesTarget;
     }
 
+    public double getSalesTarget() {
+        return salesTarget;
+    }
+
     @Override
     public String getType() { return "SalesEmployee"; }
 
@@ -22,6 +26,4 @@ public class SalesEmployee extends FullTimeEmployee {
         return getType() + "|" + getFullName() + "|" + getPosition() + "|" + getSalary() + "|"
                 + getDepartment() + "|" + getExperienceYears() + "|" + getBonusPercentage() + "|" + salesTarget;
     }
-
-    public double getBonusPercentage() { return bonusPercentage; }
 }

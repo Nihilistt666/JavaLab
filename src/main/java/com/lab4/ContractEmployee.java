@@ -9,6 +9,10 @@ public class ContractEmployee extends Employee {
         this.contractDurationMonths = contractDurationMonths;
     }
 
+    public int getContractDurationMonths() {
+        return contractDurationMonths;
+    }
+
     @Override
     public String getType() { return "ContractEmployee"; }
 

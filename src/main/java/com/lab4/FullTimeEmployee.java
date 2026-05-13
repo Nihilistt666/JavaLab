@@ -9,6 +9,10 @@ public class FullTimeEmployee extends Employee {
         this.bonusPercentage = bonusPercentage;
     }
 
+    public double getBonusPercentage() {
+        return bonusPercentage;
+    }
+
     @Override
     public String getType() { return "FullTimeEmployee"; }
 
