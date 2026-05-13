@@ -7,13 +7,21 @@ import java.util.Scanner;
 
 public class Main {
     private static Company company;
+    private static DatabaseManager dbManager;
     private static final Scanner scanner = new Scanner(System.in);
     private static final String FILE_NAME = "input.txt";
 
     public static void main(String[] args) {
+        if (args.length == 0) {
+            System.out.println("Вкажіть шлях до db.properties як аргумент!");
+            return;
+        }
+
         company = new Company("Tech Solutions");
+        dbManager = new DatabaseManager(args[0]);
         loadFromFile();
-        System.out.println("=== Практична робота №11 - Company (агрегація) ===");
+
+        System.out.println("=== Практична робота №12 - JDBC ===");
 
         while (true) {
             printMainMenu();
@@ -40,21 +48,17 @@ public class Main {
     }
 
     private static void printMainMenu() {
-        System.out.println("\n" + "=".repeat(60));
-        System.out.println("Компанія: " + company.getName());
+        System.out.println("\n" + "=".repeat(50));
         System.out.println("1. Додати працівника");
-        System.out.println("2. Вивести всіх працівників");
-        System.out.println("3. Пошук працівника");
-        System.out.println("0. Вийти (зберегти)");
-        System.out.println("=".repeat(60));
+        System.out.println("2. Вивести всіх");
+        System.out.println("3. Пошук");
+        System.out.println("0. Вийти");
+        System.out.println("=".repeat(50));
         System.out.print("Вибір: ");
     }
 
     private static void createEmployee() {
-        System.out.println("\nТип працівника:");
-        System.out.println("1. ContractEmployee   2. FullTimeEmployee");
-        System.out.println("3. RemoteEmployee     4. SalesEmployee");
-        System.out.print("Вибір: ");
+        System.out.println("\n1.Contract 2.FullTime 3.Remote 4.Sales");
         int type = scanner.nextInt();
         scanner.nextLine();
 
@@ -89,7 +93,7 @@ public class Main {
 
         if (emp != null) {
             company.addEmployee(emp, qty);
-            System.out.println("Працівник(и) додані.");
+            dbManager.saveEmployee(emp);
         }
     }
 
@@ -101,11 +105,7 @@ public class Main {
     }
 
     private static void searchMenu() {
-        System.out.println("\nПошук за:");
-        System.out.println("1. ПІБ");
-        System.out.println("2. Посада");
-        System.out.println("3. Зарплата >");
-        System.out.print("Вибір: ");
+        System.out.println("1. ПІБ 2. Посада 3. Зарплата >");
         int ch = scanner.nextInt();
         scanner.nextLine();
 
@@ -161,11 +161,8 @@ public class Main {
             String line;
             while ((line = br.readLine()) != null) {
                 if (line.trim().isEmpty()) continue;
-
             }
-        } catch (Exception e) {
-            System.out.println("Файл не знайдено. Починаємо з порожньої компанії.");
-        }
+        } catch (Exception ignored) {}
     }
 
     private static void saveToFile() {
@@ -173,8 +170,6 @@ public class Main {
             for (Employee e : company.getEmployees()) {
                 pw.println(e.toFileString());
             }
-        } catch (Exception e) {
-            System.out.println("Помилка збереження.");
-        }
+        } catch (Exception ignored) {}
     }
 }
